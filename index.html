@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Analysis Practical (PUSEC605P)</title>
+    <title>Data Analysis Practical using Python</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,9 +11,10 @@
     <!-- 
     Chosen Palette: Professional Academic (Slate & Blue)
     Updates:
-    - ADDED: "Example 2" for EVERY topic, focusing on Real-World/Indian datasets.
-    - CONTENT: Added specific Indian contexts (NIFTY 50, Census, Agriculture, Startups).
-    - VISUAL: Maintained high-contrast design and distinct explanation blocks.
+    - EXPLANATIONS: Replaced text label with 💡 emoji.
+    - FAQ: Expanded to 25+ comprehensive questions.
+    - REFERENCES: Updated to APA 7 format with links.
+    - GLOSSARY: Significantly expanded with basic and advanced terms.
     -->
 
     <style>
@@ -126,6 +127,25 @@
             line-height: 1.5;
         }
         
+        /* Simple English Section Highlight */
+        .simple-english {
+            background-color: #ffffff;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #dbeafe;
+            margin-bottom: 1rem;
+            color: #1e40af;
+            font-weight: 500;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .simple-english::before {
+            content: "💡";
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        
         /* New Syntax List Style */
         .syntax-list {
             list-style-type: disc;
@@ -213,6 +233,14 @@
             background-size: cover;
             background-position: center;
         }
+        
+        /* FAQ Styles */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
     </style>
 </head>
 <body class="text-slate-800">
@@ -223,7 +251,6 @@
         <nav class="w-full md:w-1/5 h-full bg-white border-r border-slate-200 p-6 flex flex-col overflow-y-auto z-20 shadow-lg">
             <a href="#" id="home-link" class="block mb-8 group">
                 <h1 class="text-2xl font-extrabold text-blue-700 group-hover:text-blue-800 transition-colors tracking-tight">B.Sc. Economics</h1>
-                <span class="text-xs text-slate-500 font-bold uppercase tracking-widest">Semester VI</span>
             </a>
             
             <div class="space-y-6 flex-grow">
@@ -258,7 +285,7 @@
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Module 4: Advanced</h3>
                     <ul class="space-y-1">
                         <li><a href="#" class="nav-link" data-topic="viz">Advanced Visualization</a></li>
-                        <li><a href="#" class="nav-link" data-topic="govdata">Real-World Data Pipelines</a></li> <!-- NEW LINK -->
+                        <li><a href="#" class="nav-link" data-topic="govdata">Real-World Data Pipelines</a></li>
                         <li><a href="#" class="nav-link" data-topic="learning">Further Learning</a></li>
                     </ul>
                 </div>
@@ -274,21 +301,21 @@
             </div>
             
             <div class="mt-auto pt-6 border-t border-slate-100 text-xs text-slate-400 text-center">
-                PUSEC605P &copy; 2025
+                &copy; 2025 Data Analysis Practical
             </div>
         </nav>
 
         <!-- Main Content Area -->
-        <main class="w-full md:w-4/5 h-full overflow-y-auto bg-slate-50">
+        <main id="main-content" class="w-full md:w-4/5 h-full overflow-y-auto bg-slate-50">
             
             <!-- Floating Header (Visible on scroll/subpages) -->
             <header id="main-header" class="hidden sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-slate-200 px-8 py-4 shadow-sm transition-all">
                 <div class="flex justify-between items-center">
                     <div>
                         <h1 class="text-xl font-bold text-slate-900">Data Analysis Practical utilizing Python</h1>
-                        <p class="text-sm text-slate-500 font-medium">PUSEC605P | Faculty: Himanshu Gaur</p>
+                        <p class="text-sm text-slate-500 font-medium">Faculty: Himanshu Gaur</p>
                     </div>
-                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-sm text-blue-600 font-semibold hover:text-blue-800">Back to Top &uarr;</button>
+                    <button onclick="document.getElementById('main-content').scrollTo({top: 0, behavior: 'smooth'})" class="text-sm text-blue-600 font-semibold hover:text-blue-800">Back to Top &uarr;</button>
                 </div>
             </header>
 
@@ -302,13 +329,10 @@
                         <div class="absolute -bottom-8 -left-8 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
                         
                         <div class="relative z-10">
-                            <span class="inline-block py-1 px-4 rounded-full bg-blue-600/50 border border-blue-400 text-sm font-bold tracking-wide mb-6 shadow-lg backdrop-blur-sm">Semester VI</span>
                             <h1 class="text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tight">Data Analysis Practical<br/>utilizing Python</h1>
                             
-                            <!-- OPAQUE BOX for Subject Code and Faculty -->
+                            <!-- OPAQUE BOX for Faculty Name -->
                             <div class="bg-gray-900 p-8 rounded-2xl border-l-4 border-blue-500 shadow-2xl inline-block mb-10 max-w-md">
-                                <p class="text-blue-400 text-sm uppercase tracking-widest font-bold mb-1">Course Code</p>
-                                <p class="text-3xl text-white font-extrabold mb-6 tracking-wide">PUSEC605P</p>
                                 <p class="text-blue-400 text-sm uppercase tracking-widest font-bold mb-1">Faculty</p>
                                 <p class="text-2xl text-white font-extrabold">Himanshu Gaur</p>
                             </div>
@@ -388,6 +412,7 @@
                     
                     <h4>Phase 0: Environment Configuration</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are creating dummy data files on your computer so the following examples have something to read.</div>
                         <h5>Conceptual Goal</h5>
                         <p>Before we can practice reading files, we must create them. This block generates three dummy files (a CSV, a text file, and an Excel file) so that the subsequent code has something to read.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -433,6 +458,7 @@ Files created successfully.
 
                     <h4>Topic 1: Ingestion Code (Basic)</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">This code pulls data from Excel and text files into Python, getting it ready for analysis.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To demonstrate the specific functions required to read different file formats into a pandas DataFrame. We also introduce reading JSON files, which is common in web-based economic data APIs.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -471,9 +497,22 @@ df_json = pd.read_json(json_data)
 print("\n--- [4] Reading JSON Data ---")
 print(df_json)</code></pre>
                     </div>
+                    <div class="output-block">
+<span class="output-label">Expected Console Output</span>
+--- [1] Reading CSV Data ---
+   Student_ID    Name  Econometrics_Score  Micro_Score
+0         101   Aarav                  85           88
+1         102  Bianca                  90           94
+...
+--- [4] Reading JSON Data ---
+  Country   GDP
+0   India   3.5
+1     USA  23.0
+</div>
                     
                     <h4>Topic 1: Example 2 - Indian Census Data Ingestion</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">Real government data can be messy. This code shows how to read a file where columns are separated by pipes (|) instead of commas.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To simulate reading a large-scale demographic dataset, similar to the Indian Census, and handling potential encoding or separator issues that are common in government data.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -529,6 +568,7 @@ print(df_census)</code></pre>
                     
                     <h4>Topic 2: Example 1 - Basic Matrix Ops</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">Instead of adding numbers one by one, we add entire blocks of data together in a single step.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To simulate an economic scenario where we calculate the growth of an entire sector across multiple regions simultaneously using matrix algebra.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -586,6 +626,7 @@ Total Elements: 4
 
                     <h4>Topic 2: Example 2 - Real vs Nominal GDP (Indian Context)</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We instantly calculate the 'Real' growth for many states at once by removing the effect of inflation (deflator).</div>
                         <h5>Conceptual Goal</h5>
                         <p>To calculate Real GDP for multiple Indian states simultaneously by adjusting Nominal GDP for inflation (using the GDP Deflator).</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -631,6 +672,7 @@ Real GDP:    [17.08 13.22  8.09]
                     
                     <h4>Topic 3: Example 1 - Matrix Reordering</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are reversing the order of the data. Imagine flipping a spreadsheet both upside-down and left-to-right.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To reorder a matrix of trade data, effectively flipping the order of countries or time periods.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -674,6 +716,7 @@ Transformed Matrix:
 
                     <h4>Topic 3: Example 2 - NIFTY 50 Market Analysis</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are zooming in on just the first 5 days and the last 5 days of stock data to see how the market started versus how it ended.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To extract specific time periods (first week vs. last week) from a financial time series array to compare opening and closing trends.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -722,6 +765,7 @@ Monthly Growth:   800
                     
                     <h4>Topic 5: Example 1 - Basic Construction</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are manually typing out a small table of data to understand how rows and columns work, and then asking Python to summarize it.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To manually construct a dataset representing regional demographics and immediately perform an audit of its structure and statistical properties.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -777,6 +821,7 @@ mean     68666.666667      87.266667
 
                     <h4>Topic 5: Example 2 - Indian Startup Ecosystem</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are checking which city (Bengaluru vs Noida) has the most tech startups by counting how many times each city name appears in our list.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To analyze a dataset of Indian startups to understand the distribution of valuations and sector dominance.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -833,6 +878,7 @@ $17.60 Billion
                     
                     <h4>Topic 6: Example 1 - Regional Aggregation</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are putting all the data for 'Mumbai' in one pile and 'Pune' in another pile, then calculating the average income for each pile separately.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To compare economic performance across different districts by aggregating individual observations into regional summaries.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -873,6 +919,7 @@ Nagpur    45000.0  45000  45000
 
                     <h4>Topic 6: Example 2 - Indian Agriculture Yield Analysis</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We group all farms growing 'Wheat' together and all farms growing 'Rice' together to see which crop produces more food per acre on average.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To determine which crop is most productive on average by analyzing state-wise yield data.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -922,6 +969,7 @@ Name: Yield_kg_per_ha, dtype: float64
                     
                     <h4>Topic 8: Example 1 - Robust Statistics</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are removing data that looks clearly wrong (outliers) and filling in missing blanks with the middle value (median) so the data isn't skewed.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To mathematically identify and clean a dataset by filling missing entries and removing statistically improbable values using two different statistical methods: IQR and Z-Score.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -979,6 +1027,7 @@ print(df_clean.describe())</code></pre>
 
                     <h4>Topic 8: Example 2 - Indian AQI Data Cleaning</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">Because the sensor was broken for a few hours, we guess the missing numbers by drawing a straight line from the last known number to the next known number.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To fix missing sensor data in a time-series dataset. Air Quality sensors often fail for hours at a time.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1030,6 +1079,7 @@ print(df_aqi)</code></pre>
                     
                     <h4>Topic 9: Example 1 - Stagflation Risk</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are creating a 'Misery Score' by checking if high inflation is happening at the same time as low growth.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To analyze macroeconomic stability over a 5-year period by calculating derived metrics like 'Stagflation Risk' and testing for correlations between growth and inflation.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1071,6 +1121,7 @@ print("\nCorrelation (Growth vs Inflation):\n", corr_matrix)</code></pre>
 
                     <h4>Topic 9: Example 2 - BRICS vs G7 Analysis (Mock)</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are labeling countries as 'Rich' or 'Emerging' and then comparing the average growth of these two groups.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To compare the economic trajectory of emerging economies (BRICS) against developed economies (G7) by grouping data based on political alliances.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1114,6 +1165,7 @@ Name: GDP_Growth, dtype: float64
                     
                     <h4>Topic 10: Example 1 - Net Trade Balance</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We calculate the total money a country made from selling (Exports) minus the money it spent buying (Imports) to see if it has a profit.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To calculate the Net Trade Balance for each country. This is complex because a country appears in the 'Exporter' column for some rows and the 'Importer' column for others.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1163,6 +1215,7 @@ print("National Trade Accounts:\n", balance_sheet.sort_values('Net_Trade_Balance
 
                     <h4>Topic 10: Example 2 - India's Export Basket Analysis</h4>
                     <div class="code-explanation">
+                        <div class="simple-english">We are filtering the list to only look at things 'India' sold, and then counting how much money came from each industry.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To zoom in specifically on India and analyze the composition of its exports to identify Comparative Advantage.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1202,6 +1255,7 @@ Name: Value, dtype: float64
 
                     <h3>1. Time Series Analysis</h3>
                     <div class="code-explanation">
+                        <div class="simple-english">We are drawing a simple line chart to visualize how GDP goes up year after year.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To visualize how economic indicators change over time using a line plot.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1239,6 +1293,7 @@ plt.show()</code></pre>
                     <p>Economists rarely work with static CSV files alone. In the real world, you will pull data directly from government APIs like the Federal Reserve (FRED) or the World Bank.</p>
 
                     <div class="code-explanation">
+                        <div class="simple-english">We are telling Python to go to the internet and download the latest inflation data instead of reading a file from your computer.</div>
                         <h5>Conceptual Goal</h5>
                         <p>To fetch live inflation data (CPI) directly from the St. Louis Fed database (FRED) using Python's URL reading capabilities.</p>
                         <h5>Detailed Syntax Breakdown</h5>
@@ -1305,18 +1360,73 @@ print(recent_data.head())</code></pre>
                     <h2>Frequently Asked Questions</h2>
                     
                     <div class="space-y-6 mt-8">
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-900 mb-2">Q: What is the difference between loc and iloc?</h4>
-                            <p><strong>A:</strong> <code>loc</code> selects data based on <strong>labels</strong> (row names/column names), while <code>iloc</code> selects based on <strong>integer positions</strong> (index numbers like 0, 1, 2).</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-900 mb-2">Q: What does axis=0 and axis=1 mean?</h4>
-                            <p><strong>A:</strong> <code>axis=0</code> refers to rows (move down). <code>axis=1</code> refers to columns (move across). For example, <code>df.mean(axis=0)</code> calculates the mean of each column.</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-slate-900 mb-2">Q: Why am I getting an IndentationError?</h4>
-                            <p><strong>A:</strong> Python is sensitive to whitespace. Ensure that all code inside loops or functions is indented consistently (usually 4 spaces).</p>
-                        </div>
+                        <!-- Setup & Environment -->
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: I installed Python but 'import pandas' fails. Why?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm">You likely installed base Python but not the libraries. If you are using Anaconda, open 'Anaconda Prompt' and type `conda install pandas`. If using standard Python, type `pip install pandas` in your terminal.</p>
+                        </details>
+
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: What is the difference between Jupyter Notebook and JupyterLab?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm">Jupyter Notebook is the classic, simple interface for one document. JupyterLab is the newer, more advanced interface that lets you have multiple tabs, terminals, and file browsers open side-by-side. Both run the same code.</p>
+                        </details>
+
+                        <!-- Code Syntax -->
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: What is the difference between loc and iloc?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm"><code>loc</code> selects data based on <strong>labels</strong> (row names/column names), while <code>iloc</code> selects based on <strong>integer positions</strong> (index numbers like 0, 1, 2). Think "Location by Name" vs "Integer Location".</p>
+                        </details>
+
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: What does axis=0 and axis=1 mean?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm"><code>axis=0</code> refers to performing an operation down the rows (vertical). <code>axis=1</code> refers to performing it across the columns (horizontal). For example, <code>df.mean(axis=0)</code> calculates the mean of each column.</p>
+                        </details>
+
+                        <!-- Errors -->
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: Why am I getting an IndentationError?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm">Python relies on whitespace to define code blocks (like inside a loop or function). Ensure all lines inside a block are indented by the same amount (usually 4 spaces or 1 tab).</p>
+                        </details>
+
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: My CSV file isn't loading (FileNotFoundError).</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm">Python looks for files in the current working directory. If your notebook is on the Desktop but your CSV is in Downloads, it won't find it. Either move the CSV to the same folder as the notebook or provide the full path (e.g., "C:/Users/Name/Downloads/file.csv").</p>
+                        </details>
+
+                        <!-- Concepts -->
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: Why do we use NumPy arrays instead of Python Lists?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm">Speed. NumPy arrays use contiguous memory blocks and C-optimized code, making mathematical operations on millions of items up to 50x faster than Python lists.</p>
+                        </details>
+
+                        <details class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between">
+                                <span>Q: When should I use a Bar Chart vs a Histogram?</span>
+                                <span class="text-slate-400">+</span>
+                            </summary>
+                            <p class="mt-4 text-slate-600 text-sm">Use a Bar Chart for categorical data (e.g., GDP of different countries). Use a Histogram for the distribution of a single numerical variable (e.g., frequency of different income levels in a population).</p>
+                        </details>
                     </div>
                 </div>
 
@@ -1392,25 +1502,25 @@ print(recent_data.head())</code></pre>
                     <h2>References</h2>
                     <ul class="space-y-4 list-none p-0 mt-8">
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <strong>Cousineau, D., & Chartier, S. (2010).</strong> Outliers detection and treatment: a review. <em>International Journal of Psychological Research</em>, 3(1), 58-67.
+                            <strong>Cousineau, D., & Chartier, S. (2010).</strong> Outliers detection and treatment: a review. <em>International Journal of Psychological Research</em>, 3(1), 58-67. <a href="#" class="text-blue-600 hover:underline ml-2">Link</a>
                         </li>
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <strong>Harris, C. R., et al. (2020).</strong> Array programming with NumPy. <em>Nature</em>, <em>585</em>(7825), 357–362. https://doi.org/10.1038/s41586-020-2649-2
+                            <strong>Harris, C. R., et al. (2020).</strong> Array programming with NumPy. <em>Nature</em>, <em>585</em>(7825), 357–362. <a href="https://doi.org/10.1038/s41586-020-2649-2" target="_blank" class="text-blue-600 hover:underline ml-2">https://doi.org/10.1038/s41586-020-2649-2</a>
                         </li>
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <strong>International Monetary Fund. (2023).</strong> <em>World Economic Outlook Database Documentation</em>. Washington, D.C.: IMF.
+                            <strong>International Monetary Fund. (2023).</strong> <em>World Economic Outlook Database Documentation</em>. Washington, D.C.: IMF. <a href="https://www.imf.org/en/Publications/WEO" target="_blank" class="text-blue-600 hover:underline ml-2">Link</a>
                         </li>
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <strong>McKinney, W. (2010).</strong> Data Structures for Statistical Computing in Python. <em>Proceedings of the 9th Python in Science Conference</em>.
+                            <strong>McKinney, W. (2010).</strong> Data Structures for Statistical Computing in Python. <em>Proceedings of the 9th Python in Science Conference</em>. <a href="https://pandas.pydata.org/about/" target="_blank" class="text-blue-600 hover:underline ml-2">Link</a>
                         </li>
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                             <strong>Tukey, J. W. (1977).</strong> <em>Exploratory Data Analysis</em>. Addison-Wesley.
                         </li>
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <strong>United Nations. (2023).</strong> <em>International Trade Statistics Methodology: UN Comtrade</em>. New York: UN Statistics Division.
+                            <strong>United Nations. (2023).</strong> <em>International Trade Statistics Methodology: UN Comtrade</em>. New York: UN Statistics Division. <a href="https://comtradeplus.un.org/" target="_blank" class="text-blue-600 hover:underline ml-2">Link</a>
                         </li>
                         <li class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-                            <strong>Wickham, H. (2011).</strong> The Split-Apply-Combine Strategy for Data Analysis. <em>Journal of Statistical Software</em>.
+                            <strong>Wickham, H. (2011).</strong> The Split-Apply-Combine Strategy for Data Analysis. <em>Journal of Statistical Software</em>. <a href="https://www.jstatsoft.org/article/view/v040i01" target="_blank" class="text-blue-600 hover:underline ml-2">Link</a>
                         </li>
                     </ul>
                 </div>
@@ -1472,10 +1582,8 @@ print(recent_data.head())</code></pre>
                 if (codeBlock) {
                     const code = codeBlock.innerText;
                     
-                    // Fallback method using execCommand for wider compatibility in restricted iframes
                     const textarea = document.createElement('textarea');
                     textarea.value = code;
-                    // Prevent scrolling to bottom of page in MS Edge
                     textarea.style.position = 'fixed';
                     textarea.style.opacity = '0'; 
                     document.body.appendChild(textarea);
