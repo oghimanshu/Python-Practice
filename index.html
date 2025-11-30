@@ -769,14 +769,14 @@
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            /* iOS Light Mode Glass */
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            /* iOS Light Mode Glass - More Translucent */
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: saturate(180%) blur(30px);
+            -webkit-backdrop-filter: saturate(180%) blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 0.75rem 1.5rem;
             border-radius: 9999px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
             z-index: 100;
             display: flex;
             align-items: center;
@@ -789,10 +789,10 @@
         }
 
         .dark .progress-pill-container {
-            /* iOS Dark Mode Glass */
-            background: rgba(30, 30, 30, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            /* iOS Dark Mode Glass - More Translucent */
+            background: rgba(20, 20, 20, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .progress-pill-container.visible {
@@ -3545,7 +3545,7 @@ except:
             </div>
         </main>
 
-        <div id="progress-pill" class="progress-pill-container">
+        <div id="progress-pill" class="progress-pill-container" style="display: none;">
             <button id="prog-prev" class="prog-btn" aria-label="Previous Topic">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -3673,6 +3673,7 @@ except:
                 const progressFill = document.getElementById('progress-fill');
                 const progPrev = document.getElementById('prog-prev');
                 const progNext = document.getElementById('prog-next');
+                let progressHideTimeout;
 
                 // Ordered list of topics for progress tracking
                 const progressTopics = [
@@ -3713,7 +3714,12 @@ except:
                     // Update Progress Bar
                     const topicIndex = progressTopics.indexOf(targetTopic);
                     if (topicIndex !== -1) {
+                        if (progressHideTimeout) clearTimeout(progressHideTimeout);
+                        progressPill.style.display = ''; // Reset to CSS flex
+                        // Force reflow
+                        void progressPill.offsetWidth;
                         progressPill.classList.add('visible');
+
                         const currentStep = topicIndex + 1;
                         const totalSteps = progressTopics.length;
                         const percent = (currentStep / totalSteps) * 100;
@@ -3727,6 +3733,10 @@ except:
                     } else {
                         // Hide if not a main topic (e.g. home, faq, glossary)
                         progressPill.classList.remove('visible');
+                        if (progressHideTimeout) clearTimeout(progressHideTimeout);
+                        progressHideTimeout = setTimeout(() => {
+                            progressPill.style.display = 'none';
+                        }, 400);
                     }
                 }
 
