@@ -1,0 +1,5 @@
+flask>=2.0
+pandas>=1.3
+requests>=2.25
+# Optional: kagglehub for convenience (will be used if available)
+kagglehub[pandas-datasets]>=0.1.0
