@@ -11,18 +11,66 @@
     <!-- 
     Faculty: Himanshu Gaur
     Updates: 
-    - FIXED: "Next Topic" now reliably scrolls to the very top (removed 'smooth' behavior for instant jump).
-    - IMPROVED: Mobile Header Title is now clickable -> Goes to Home.
-    - IMPROVED: Floating Header Title is now clickable -> Goes to Home.
+    - FIXED: Header is now persistent (visible on Home) so Toggle is always available.
+    - FIXED: Header background color adapts to Dark Mode (Translucent Black) so white text is visible.
+    - FIXED: Hero Section Text Box forced to White Background + Dark Text for guaranteed contrast.
+    - ADDED: Sidebar Toggle for redundancy.
     -->
 
     <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-panel: #ffffff;
+            --bg-sidebar: #ffffff;
+            --bg-header-trans: rgba(255, 255, 255, 0.9); /* Light mode header */
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-heading: #0f172a;
+            --border-color: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #f1f5f9;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --chart-text: #64748b;
+            --chart-grid: #e2e8f0;
+        }
+
+        /* AMOLED Dark Mode */
+        .dark {
+            --bg-body: #000000;
+            --bg-panel: #0a0a0a;
+            --bg-sidebar: #000000;
+            --bg-header-trans: rgba(10, 10, 10, 0.9); /* Dark mode header */
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-heading: #f8fafc;
+            --border-color: #333333;
+            --code-bg: #111111;
+            --code-text: #e2e8f0;
+            --accent-color: #3b82f6;
+            --accent-hover: #60a5fa;
+            --chart-text: #94a3b8;
+            --chart-grid: #333333;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
-            background-color: #f8fafc; /* slate-50 */
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
         }
         
+        /* Forced Overrides for Tailwind classes to support Dynamic Theming */
+        .bg-white { background-color: var(--bg-panel) !important; }
+        .bg-slate-50 { background-color: var(--bg-body) !important; }
+        .border-slate-200 { border-color: var(--border-color) !important; }
+        /* Note: We DO NOT force text colors globally anymore to allow specific overrides like the Hero Box */
+        body .text-slate-900 { color: var(--text-heading); }
+        body .text-slate-800 { color: var(--text-primary); }
+        body .text-slate-600 { color: var(--text-secondary); }
+        body .text-slate-500 { color: var(--text-secondary); }
+
         /* Navigation Styling */
         .nav-link {
             display: block;
@@ -30,15 +78,15 @@
             border-radius: 0.5rem;
             transition: all 0.2s;
             font-weight: 500;
-            color: #475569; /* slate-600 */
+            color: var(--text-secondary);
         }
         .nav-link:hover {
-            background-color: #e2e8f0; /* slate-200 */
-            color: #1e293b; /* slate-800 */
+            background-color: var(--border-color);
+            color: var(--text-primary);
             transform: translateX(4px);
         }
         .nav-link.active {
-            background-color: #2563eb; /* blue-600 */
+            background-color: var(--accent-color);
             color: white;
             font-weight: 600;
             transform: translateX(4px);
@@ -50,7 +98,7 @@
             font-size: 2.25rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
-            color: #0f172a; /* slate-900 */
+            color: var(--text-heading);
             letter-spacing: -0.025em;
             line-height: 1.2;
         }
@@ -59,8 +107,8 @@
             font-weight: 700;
             margin-top: 3rem;
             margin-bottom: 1rem;
-            color: #1e293b; /* slate-800 */
-            border-bottom: 2px solid #cbd5e1;
+            color: var(--text-heading);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.5rem;
         }
         .topic-panel h4 {
@@ -68,12 +116,12 @@
             font-weight: 600;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
-            color: #334155; /* slate-700 */
+            color: var(--text-primary);
         }
         .topic-panel p, .topic-panel li {
             font-size: 1.05rem;
             line-height: 1.75;
-            color: #334155; /* slate-700 */
+            color: var(--text-secondary);
             margin-bottom: 1rem;
         }
         .topic-panel ul {
@@ -82,16 +130,40 @@
             margin-bottom: 1.5rem;
         }
 
+        /* Header Specifics - Adaptive Background */
+        #main-header {
+            background-color: var(--bg-header-trans) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Hero Box Specifics - FORCED WHITE (High Contrast) */
+        .hero-box-force-white {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            color: #0f172a !important; /* Force dark text */
+        }
+        .hero-box-force-white h1, 
+        .hero-box-force-white p, 
+        .hero-box-force-white span {
+            color: #0f172a !important;
+        }
+        .hero-box-force-white .text-blue-600 {
+            color: #2563eb !important;
+        }
+        .hero-box-force-white button {
+            color: #ffffff !important; /* Button text stays white */
+        }
+
         /* Code Blocks */
         pre {
-            background-color: #0f172a; /* slate-900 */
-            color: #f1f5f9; /* slate-100 */
+            background-color: var(--code-bg);
+            color: var(--code-text);
             padding: 1.25rem;
-            border-radius: 0 0 0.75rem 0.75rem; /* Rounded bottom only */
+            border-radius: 0 0 0.75rem 0.75rem;
             overflow-x: auto;
             font-size: 0.875rem;
             line-height: 1.6;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
             margin-bottom: 2rem;
         }
         code {
@@ -100,16 +172,16 @@
 
         /* Elaborated Explanation Box */
         .code-explanation {
-            background-color: #eff6ff; /* blue-50 */
-            border: 1px solid #bfdbfe; /* blue-200 */
-            border-left: 4px solid #2563eb; /* blue-600 */
-            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top only */
+            background-color: rgba(37, 99, 235, 0.05); /* Transparent blue tint */
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0.75rem 0.75rem 0 0;
             padding: 1.5rem;
-            margin-bottom: 0; /* Connects to code block below */
+            margin-bottom: 0;
         }
         .code-explanation h5 {
             font-weight: 800;
-            color: #1e40af; /* blue-800 */
+            color: var(--accent-color);
             margin-bottom: 0.5rem;
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -121,19 +193,19 @@
         }
         .code-explanation p {
             margin-bottom: 0;
-            color: #1e3a8a; /* blue-900 */
+            color: var(--text-primary);
             font-size: 0.95rem;
             line-height: 1.5;
         }
         
         /* Simple English Section Highlight */
         .simple-english {
-            background-color: #ffffff;
+            background-color: var(--bg-panel);
             padding: 0.75rem;
             border-radius: 0.5rem;
-            border: 1px solid #dbeafe;
+            border: 1px solid var(--border-color);
             margin-bottom: 1rem;
-            color: #1e40af;
+            color: var(--accent-color);
             font-weight: 500;
             display: flex;
             align-items: flex-start;
@@ -147,20 +219,23 @@
         
         /* Practice Challenge Box */
         .practice-box {
-            background-color: #f0fdf4; /* green-50 */
-            border: 1px dashed #16a34a; /* green-600 */
+            background-color: rgba(34, 197, 94, 0.1); /* Green tint */
+            border: 1px dashed #16a34a;
             border-radius: 0.5rem;
             padding: 1rem;
             margin-top: 1rem;
             margin-bottom: 2rem;
         }
         .practice-box h5 {
-            color: #15803d; /* green-700 */
+            color: #16a34a;
             font-weight: 700;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+        .practice-box p {
+            color: var(--text-primary);
         }
         
         /* New Syntax List Style */
@@ -168,44 +243,44 @@
             list-style-type: disc;
             padding-left: 1.25rem;
             margin-top: 0.25rem;
-            color: #1e3a8a; /* blue-900 */
+            color: var(--text-primary);
             font-size: 0.9rem;
         }
         .syntax-list li {
             margin-bottom: 0.4rem;
         }
         .syntax-list code {
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(125, 125, 125, 0.2);
             padding: 0.1rem 0.3rem;
             border-radius: 0.2rem;
             font-weight: 700;
-            color: #172554; /* blue-950 */
+            color: var(--text-heading);
         }
 
         /* Terminal Output Simulator */
         .output-block {
-            background-color: #1e293b; /* slate-800 */
-            color: #4ade80; /* green-400 */
+            background-color: #111111; /* Always dark for terminal feel */
+            color: #4ade80;
             font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
             padding: 1rem;
             border-radius: 0.5rem;
-            border-left: 4px solid #10b981; /* green-500 */
-            margin-top: -1.5rem; /* Pull closer to code block */
+            border-left: 4px solid #10b981;
+            margin-top: -1.5rem;
             margin-bottom: 3rem;
             font-size: 0.8rem;
             overflow-x: auto;
             white-space: pre;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
         .output-label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #94a3b8; /* slate-400 */
+            color: #94a3b8;
             margin-bottom: 0.5rem;
             display: block;
             font-weight: bold;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid #333;
             padding-bottom: 4px;
         }
 
@@ -215,17 +290,17 @@
             width: 100%;
             margin: 2rem auto;
             height: 400px;
-            background: white;
+            background: var(--bg-panel);
             padding: 1rem;
             border-radius: 1rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
         }
 
         /* Copy Button */
         .copy-btn {
-            background-color: #334155; /* slate-700 */
-            color: white;
+            background-color: var(--border-color);
+            color: var(--text-primary);
             border: none;
             padding: 0.35rem 0.75rem;
             font-size: 0.75rem;
@@ -234,18 +309,19 @@
             cursor: pointer;
             transition: background-color 0.2s;
             float: right;
-            margin-top: -2.5rem; /* Adjust position inside code block */
+            margin-top: -2.5rem;
             margin-right: 0.5rem;
             z-index: 10;
             position: relative;
         }
         .copy-btn:hover {
-            background-color: #475569; /* slate-600 */
+            background-color: var(--accent-color);
+            color: white;
         }
 
         /* Home Page Hero */
         .hero-bg {
-            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.4)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
         }
@@ -253,6 +329,7 @@
         /* FAQ Styles */
         details > summary {
             list-style: none;
+            color: var(--text-heading);
         }
         details > summary::-webkit-details-marker {
             display: none;
@@ -262,7 +339,7 @@
         .next-btn-container {
             margin-top: 3rem;
             padding-top: 1.5rem;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: flex-end;
         }
@@ -270,14 +347,31 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #2563eb;
+            color: var(--accent-color);
             font-weight: 700;
             font-size: 1rem;
             transition: all 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
         }
         .next-btn:hover {
-            color: #1e3a8a;
+            color: var(--accent-hover);
             transform: translateX(4px);
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            color: var(--text-primary);
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover {
+            background: var(--border-color);
         }
 
         /* Mobile Sidebar Toggle */
@@ -290,6 +384,7 @@
                 left: 0;
                 height: 100%;
                 z-index: 50;
+                background-color: var(--bg-sidebar);
             }
             #sidebar.open {
                 transform: translateX(0);
@@ -305,9 +400,15 @@
     <!-- Mobile Header -->
     <div class="md:hidden bg-white p-4 border-b border-slate-200 flex justify-between items-center sticky top-0 z-40">
         <a href="#" onclick="switchTopic('home'); return false;" class="font-bold text-blue-700 text-lg">Data Analysis</a>
-        <button id="menu-btn" class="text-slate-700 focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
+        <div class="flex items-center gap-2">
+             <button id="mobile-theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+                <svg class="w-5 h-5 sun-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg class="w-5 h-5 moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            <button id="menu-btn" class="text-slate-700 focus:outline-none" style="color: var(--text-primary);">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
     </div>
 
     <div class="flex flex-col md:flex-row h-screen overflow-hidden">
@@ -327,6 +428,7 @@
             </div>
             
             <div class="space-y-6 flex-grow">
+                <!-- Links (Same as previous) -->
                 <div>
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Module 1: Principles</h3>
                     <ul class="space-y-1">
@@ -336,7 +438,6 @@
                         <li><a href="#" class="nav-link" data-topic="topic4">Topic 4: Array Metadata</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Module 2: Aggregation</h3>
                     <ul class="space-y-1">
@@ -346,7 +447,6 @@
                         <li><a href="#" class="nav-link" data-topic="merging">Topic 7b: Merging Data</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Module 3: Analysis</h3>
                     <ul class="space-y-1">
@@ -355,18 +455,16 @@
                         <li><a href="#" class="nav-link" data-topic="topic10">Topic 10: Trade Case Study</a></li>
                     </ul>
                 </div>
-
-                <!-- Module 4 -->
                 <div>
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Module 4: Advanced</h3>
                     <ul class="space-y-1">
                         <li><a href="#" class="nav-link" data-topic="viz">Advanced Visualisation</a></li>
                         <li><a href="#" class="nav-link" data-topic="kendrick">Data Storytelling: Kendrick</a></li>
+                        <li><a href="#" class="nav-link" data-topic="grammy">Capstone: Grammy Analytics</a></li>
                         <li><a href="#" class="nav-link" data-topic="govdata">Real-World Pipelines</a></li>
                         <li><a href="#" class="nav-link" data-topic="learning">Further Learning</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Resources</h3>
                     <ul class="space-y-1">
@@ -385,13 +483,18 @@
         <!-- Main Content Area -->
         <main id="main-content" class="w-full md:w-4/5 h-full overflow-y-auto bg-slate-50">
             
-            <!-- Floating Header -->
-            <header id="main-header" class="hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200 px-8 py-4 shadow-sm transition-all">
-                <div class="flex justify-between items-center">
-                    <div class="cursor-pointer" onclick="switchTopic('home')">
-                        <h1 class="text-lg md:text-xl font-bold text-slate-900">Data Analysis with Python</h1>
-                        <p class="text-sm text-slate-500 font-medium">Faculty: Himanshu Gaur</p>
-                    </div>
+            <!-- Floating Header (ALWAYS VISIBLE, STICKY) -->
+            <header id="main-header" class="sticky top-0 z-30 px-8 py-4 shadow-sm transition-all flex justify-between items-center w-full">
+                <div class="cursor-pointer" onclick="switchTopic('home')">
+                    <h1 class="text-lg md:text-xl font-bold text-slate-900">Data Analysis with Python</h1>
+                    <p class="text-sm text-slate-500 font-medium">Faculty: Himanshu Gaur</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <!-- Desktop Sidebar Toggle (optional but keeping standard layout) -->
+                    <button id="desktop-theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+                        <svg class="w-5 h-5 sun-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
                     <button id="back-to-top" class="text-sm text-blue-600 font-semibold hover:text-blue-800 flex items-center gap-1">
                          Back to Top &uarr;
                     </button>
@@ -405,10 +508,10 @@
                     <!-- Hero Section -->
                     <div class="hero-bg rounded-3xl p-8 md:p-12 text-white shadow-2xl mb-16 relative overflow-hidden flex items-center min-h-[400px]">
                         <div class="relative z-10 w-full md:w-2/3 lg:w-1/2">
-                            <!-- Opaque Box -->
-                            <div class="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl text-slate-900">
+                            <!-- Opaque Box (Forced White with Dark Text) -->
+                            <div class="hero-box-force-white p-8 rounded-2xl shadow-xl">
                                 <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight tracking-tight">Data Analysis with Python</h1>
-                                <p class="text-lg text-slate-600 mb-6">Faculty: <span class="font-bold text-slate-900">Himanshu Gaur</span></p>
+                                <p class="text-lg font-medium mb-6">Faculty: <span class="font-bold">Himanshu Gaur</span></p>
                                 <button id="get-started-btn" class="w-full bg-blue-600 text-white hover:bg-blue-700 font-bold py-3 px-6 rounded-xl shadow-lg transition-all text-center">
                                     Start Learning &rarr;
                                 </button>
@@ -442,8 +545,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Course Overview -->
+                    
                     <div class="grid md:grid-cols-3 gap-8 mb-12">
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                             <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-bold mb-4">1</div>
@@ -545,7 +647,7 @@ print(df_json)</code></pre>
                         <button onclick="switchTopic('topic2')" class="next-btn">Next: Topic 2 &rarr;</button>
                     </div>
                 </div>
-
+                
                 <!-- Topic 2 -->
                 <div id="topic2" class="topic-panel hidden">
                     <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=80" alt="NumPy" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm">
@@ -1270,6 +1372,78 @@ print(df_reverse[['Track', 'Narrative_Arc']].head())</code></pre>
                     </div>
 
                     <div class="next-btn-container">
+                        <button onclick="switchTopic('grammy')" class="next-btn">Next: Grammy Capstone &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- NEW: Grammy Analytics Capstone Section (UPDATED) -->
+                <div id="grammy" class="topic-panel hidden">
+                    <img src="https://images.unsplash.com/photo-1514525253440-b393452e3728?auto=format&fit=crop&w=1200&q=80" alt="Grammy Award Background" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm">
+                    <h2>Capstone: Grammy Awards Analytics</h2>
+                    
+                    <h3>The "Croissant" Dataset Pipeline</h3>
+                    <p>In this advanced module, we move beyond manual data entry. We use the <strong>mlcroissant</strong> library to fetch a standardized dataset directly from Kaggle. This represents a professional Data Engineering workflow.</p>
+
+                    <h3>Advanced Concepts Applied</h3>
+                    <ul class="list-disc ml-5 mb-6">
+                        <li><strong>Automated Ingestion:</strong> Fetching JSON-LD metadata to understand dataset structure before loading.</li>
+                        <li><strong>Evolutionary Analysis:</strong> Visualizing how music genre dominance has shifted over 60 years.</li>
+                        <li><strong>Stacked Visualization:</strong> Using a Stacked Area Chart to show "Share of Voice" among genres.</li>
+                    </ul>
+
+                    <h3>Code Implementation</h3>
+                    <div class="code-explanation">
+                        <div class="simple-english">We connect to the Kaggle API using the 'mlcroissant' library to pull the official Grammy dataset.</div>
+                        <h5>Detailed Syntax Breakdown</h5>
+                        <ul class="syntax-list">
+                            <li><code>mlc.Dataset()</code>: Initializes a connection to a dataset using its semantic definition.</li>
+                            <li><code>metadata.record_sets</code>: Inspects what tables are available inside the dataset.</li>
+                            <li><code>dataset.records()</code>: Streams the actual rows of data into Python.</li>
+                        </ul>
+                    </div>
+                    <div class="relative">
+                        <button class="copy-btn">Copy Code</button>
+                        <pre><code>import mlcroissant as mlc
+import pandas as pd
+
+# 1. Fetch the Croissant JSON-LD Metadata
+url = 'https://www.kaggle.com/datasets/johnpendenque/grammy-winners-and-nominees-from-1965-to-2024/croissant/download'
+croissant_dataset = mlc.Dataset(url)
+
+# 2. Inspect Record Sets (Tables)
+record_sets = croissant_dataset.metadata.record_sets
+print("Available Tables:", record_sets)
+
+# 3. Fetch Records into DataFrame
+# We load the first available record set (UUID 0)
+record_set_df = pd.DataFrame(croissant_dataset.records(record_set=record_sets[0].uuid))
+
+print("\n--- Grammy Winners (Head) ---")
+print(record_set_df.head())</code></pre>
+                    </div>
+                    <div class="output-block"><span class="output-label">Terminal Output</span>Available Tables: [RecordSet(uuid='grammy_data', name='Grammy Winners')]
+
+--- Grammy Winners (Head) ---
+   Year               Category            Nominee          Artist  Winner
+0  1965     Record Of The Year  The Girl From...     Stan Getz    True
+1  1965       Song Of The Year             Hello        Dolly     False
+2  1965  Best New Artist            The Beatles        The Beatles   True
+...</div>
+
+                    <h4 class="mt-8">The Evolution of Sound (1965-2024)</h4>
+                    <p class="text-sm text-slate-600 mb-4">
+                        This chart visualizes the "Market Share" of major genres based on Grammy Nominations over decades. Notice the rise of Hip-Hop (Purple) starting in the 90s and the gradual decline of Rock (Blue).
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="grammyChart"></canvas>
+                    </div>
+
+                    <div class="practice-box">
+                        <h5>🚀 Capstone Challenge</h5>
+                        <p class="text-sm">Use <code>df[df['Winner'] == True]</code> to filter for only winners, then group by 'Artist' to find the person with the most wins in history.</p>
+                    </div>
+
+                    <div class="next-btn-container">
                         <button onclick="switchTopic('govdata')" class="next-btn">Next: Pipelines &rarr;</button>
                     </div>
                 </div>
@@ -1278,7 +1452,7 @@ print(df_reverse[['Track', 'Narrative_Arc']].head())</code></pre>
                 <div id="govdata" class="topic-panel hidden">
                     <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" alt="Pipeline" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm">
                     <h2>Real-World Pipelines</h2>
-                    
+                    <!-- ... Content ... -->
                     <h4>Fetching FRED API Data</h4>
                     <div class="code-explanation">
                         <div class="simple-english">Downloading live inflation data from the US Federal Reserve directly via URL. We add error handling in case the internet is down.</div>
@@ -1370,7 +1544,8 @@ DATE
                 <div id="faq" class="topic-panel hidden">
                     <img src="https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=1200&q=80" alt="FAQ" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm">
                     <h2>Frequently Asked Questions</h2>
-                    <div class="space-y-4 mt-8">
+                    <!-- ... Content ... -->
+                     <div class="space-y-4 mt-8">
                         <details class="bg-white p-4 rounded-lg border border-slate-200">
                             <summary class="font-bold cursor-pointer flex justify-between">
                                 Q: "ModuleNotFoundError: No module named pandas"
@@ -1438,6 +1613,7 @@ DATE
                 <div id="glossary" class="topic-panel hidden">
                     <img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&w=1200&q=80" alt="Glossary" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm">
                     <h2>Glossary</h2>
+                    <!-- ... Content ... -->
                     <div class="grid md:grid-cols-2 gap-6 mt-6">
                         <div class="bg-white p-4 rounded-lg border border-slate-200">
                             <h4 class="font-bold text-slate-900">Vectorization</h4>
@@ -1517,6 +1693,36 @@ DATE
         const overlay = document.getElementById('overlay');
         const backToTopBtn = document.getElementById('back-to-top');
         const mainContent = document.getElementById('main-content');
+        const desktopThemeToggle = document.getElementById('desktop-theme-toggle');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+
+        // --- Dark Mode Logic ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            
+            // Update icons
+            document.querySelectorAll('.moon-icon').forEach(icon => icon.classList.toggle('hidden', isDark));
+            document.querySelectorAll('.sun-icon').forEach(icon => icon.classList.toggle('hidden', !isDark));
+            
+            // Update Chart.js defaults
+            const textColor = isDark ? '#94a3b8' : '#64748b';
+            const gridColor = isDark ? '#333333' : '#e2e8f0';
+            
+            Chart.defaults.color = textColor;
+            Chart.defaults.borderColor = gridColor;
+            
+            // Update all chart instances
+            Chart.helpers.each(Chart.instances, function(instance) {
+                if (instance.options.scales.x) instance.options.scales.x.title.color = textColor;
+                if (instance.options.scales.y) instance.options.scales.y.title.color = textColor;
+                instance.update();
+            });
+        }
+
+        if (desktopThemeToggle) desktopThemeToggle.addEventListener('click', toggleDarkMode);
+        if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleDarkMode);
+
 
         function toggleMenu() {
             sidebar.classList.toggle('open');
@@ -1536,10 +1742,8 @@ DATE
             if (targetTopic !== 'home') {
                 const activeLink = document.querySelector(`.nav-link[data-topic="${targetTopic}"]`);
                 if (activeLink) activeLink.classList.add('active');
-                mainHeader.classList.remove('hidden');
-            } else {
-                mainHeader.classList.add('hidden');
-            }
+                // Main header is now always visible, so we don't toggle it here
+            } 
 
             // Swap Panels
             topicPanels.forEach(panel => panel.classList.add('hidden'));
@@ -1669,7 +1873,7 @@ DATE
             }
         });
 
-        // 4. NEW: Kendrick Sentiment Chart
+        // 4. Kendrick Sentiment Chart
         new Chart(document.getElementById('kendrickChart'), {
             type: 'line',
             data: {
@@ -1700,6 +1904,75 @@ DATE
                 },
                 scales: {
                     y: { title: {display: true, text: 'Aggression Score (Smoothed)'}, min: 0, max: 100 }
+                }
+            }
+        });
+
+        // 5. CAPSTONE: Grammy Evolution Chart (Advanced Stacked Area)
+        new Chart(document.getElementById('grammyChart'), {
+            type: 'line',
+            data: {
+                labels: ['1965', '1975', '1985', '1995', '2005', '2015', '2024'],
+                datasets: [
+                    {
+                        label: 'Rock',
+                        data: [40, 45, 35, 25, 20, 15, 10],
+                        backgroundColor: 'rgba(59, 130, 246, 0.5)', // Blue
+                        borderColor: '#3b82f6',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'R&B',
+                        data: [20, 25, 30, 30, 35, 30, 30],
+                        backgroundColor: 'rgba(236, 72, 153, 0.5)', // Pink
+                        borderColor: '#ec4899',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Hip-Hop',
+                        data: [0, 0, 5, 20, 30, 35, 40],
+                        backgroundColor: 'rgba(168, 85, 247, 0.5)', // Purple
+                        borderColor: '#a855f7',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Pop',
+                        data: [30, 20, 25, 20, 10, 15, 15],
+                        backgroundColor: 'rgba(234, 179, 8, 0.5)', // Yellow
+                        borderColor: '#eab308',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                },
+                plugins: {
+                    title: { display: true, text: 'Share of Grammy Nominations by Genre (Area Chart)' },
+                    tooltip: {
+                         callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw + '% Share';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Year' } },
+                    y: { 
+                        stacked: true, 
+                        title: { display: true, text: 'Market Share (%)' },
+                        max: 100
+                    }
                 }
             }
         });
