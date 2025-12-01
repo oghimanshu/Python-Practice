@@ -1,16 +1,3 @@
-🚀 Quick Start (60 Seconds)
-Option 1: The "Instant" Way (Recommended)
-
-Simply open 
-index.html
- in any modern web browser.
-That's it! The entire platform, including charts and interactive lessons, works immediately.
-Option 2: Live Data Server (Optional) To enable the live Grammy Analytics engine:
-
-bash
-pip install -r requirements_new.txt
-python grammy_server.py
-# The site will auto-detect the server and switch to live data mode.
 ✨ Key Features
 📚 Interactive Curriculum
 10+ Core Modules: From Data Ingestion and NumPy Vectorization to Advanced Pandas Merging.
@@ -57,6 +44,4 @@ Local Data: Your theme preferences stay on your device.
 Content & Code: Himanshu Gaur
 Open Source Libraries: Tailwind CSS, Chart.js, PapaParse (MIT Licenses)
 Data Sources: Kaggle (Grammy Dataset)
-Ready to start learning? Open 
-index.html
- and dive in! 🎓
+Ready to start learning? Open index.html and dive in! 🎓
